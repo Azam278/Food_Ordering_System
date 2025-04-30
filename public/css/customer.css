@@ -1,0 +1,63 @@
+body {
+    min-height: 100vh;
+    overflow-x: hidden; /* <-- this */
+    display: flex;
+    flex-direction: column;
+}
+.wrapper {
+    display: flex;
+    flex: 1;
+}
+.main-content {
+    /* margin-left: 220px; */
+    padding: 20px;
+    flex-grow: 1;
+    background: #f8f9fa;
+}
+.btn-circle {
+    width: 38px;
+    height: 38px;
+    padding: 6px 0px;
+    border-radius: 19px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 1.42857;
+}
+.card {
+    transition: transform 0.3s;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+.toast {
+    opacity: 0.95;
+}
+.payment-method-option {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.payment-method-option:hover {
+    border-color: #adb5bd;
+}
+
+.form-check-input:checked ~ .form-check-label {
+    font-weight: 500;
+}
+
+.form-check-input:checked + .form-check-label {
+    color: var(--bs-primary);
+}
+
+.spinner-border {
+    animation: spinner-border 0.75s linear infinite;
+}
+
+@keyframes spinner-border {
+    to { transform: rotate(360deg); }
+}
