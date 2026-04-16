@@ -13,28 +13,17 @@ class RestaurantProfile extends Component
     use WithFileUploads;
 
     public $restaurantId;
-    // public $restaurantProfile = [
-    //     'name' => '',
-    //     'description' => '',
-    //     'address' => '',
-    //     'phone' => '',
-    //     'logo' => '',
-    //     'is_active' => true,
-    //     'is_approved' => false,
-    // ];
     public $restaurantProfile = [];
-
     public $logo;
-
     public $logoPreview;
 
-    public function mount($restaurantId = null)
+    public function mount()
     {
-        $this->restaurantId = $restaurantId;
+        $user = auth()->user();
+        $restaurant = Restaurant::where('user_id', $user->id)->first();
 
-        if ($restaurantId) {
-            $restaurant = Restaurant::findOrFail($restaurantId);
-
+        if ($restaurant) {
+            $this->restaurantId = $restaurant->id;
             $this->restaurantProfile = [
                 'name' => $restaurant->name,
                 'description' => $restaurant->description,
@@ -46,7 +35,7 @@ class RestaurantProfile extends Component
 
             $this->logoPreview = asset('storage/' . $restaurant->logo);
         } else {
-            // default for new restaurant
+            // Default for new restaurant
             $this->restaurantProfile = [
                 'name' => '',
                 'description' => '',
@@ -88,11 +77,19 @@ class RestaurantProfile extends Component
             if ($logoPath) {
                 $dataToSave['logo'] = $logoPath;
             }
-            
-            Restaurant::create($dataToSave);
+
+            if ($this->restaurantId) {
+                // Update existing restaurant
+                $restaurant = Restaurant::findOrFail($this->restaurantId);
+                $restaurant->update($dataToSave);
+            } else {
+                // Create new restaurant
+                $restaurant = Restaurant::create($dataToSave);
+                $this->restaurantId = $restaurant->id;
+            }
 
             DB::commit();
-            $this->emit('swal:alert',[
+            $this->emit('swal:alert', [
                 'position' => 'top',
                 'icon' => 'success',
                 'title' => "Restaurant saved successfully.",
@@ -101,10 +98,10 @@ class RestaurantProfile extends Component
             return redirect()->route('manager.dashboard');
         } catch (\Exception $e) {
             DB::rollBack();
-            $this->emit('swal:alert',[
+            $this->emit('swal:alert', [
                 'position' => 'top',
                 'icon' => 'error',
-                'title' => " Something went wrong",
+                'title' => "Something went wrong",
                 'timerProgressBar' => true,
             ]);
         }

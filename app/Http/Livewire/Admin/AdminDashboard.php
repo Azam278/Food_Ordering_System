@@ -2,12 +2,20 @@
 
 namespace App\Http\Livewire\Admin;
 
-use Livewire\Component;
+use App\Models\Restaurant;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class AdminDashboard extends Component
 {
     protected $listeners = ['logout'];
+
+    public $totalApproved, $totalPendingApproval;
+
+    public function mount(){
+        $this->totalApproved = Restaurant::where('is_approved', true)->count();
+        $this->totalPendingApproval = Restaurant::where('is_approved', false)->count();
+    }
 
     public function render()
     {

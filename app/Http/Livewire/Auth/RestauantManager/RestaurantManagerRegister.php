@@ -2,11 +2,12 @@
 
 namespace App\Http\Livewire\Auth\RestauantManager;
 
-use Livewire\Component;
+use App\Models\Restaurant;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\QueryException;
+use Livewire\Component;
 
 class RestaurantManagerRegister extends Component
 {
@@ -51,6 +52,11 @@ class RestaurantManagerRegister extends Component
                     'email_verified_at' => now(),
                     'password' => Hash::make($this->managerRestaurant['password']),
                     'usr_role' => '2', 
+                ]);
+
+                Restaurant::create([
+                    'user_id' => User::where('email', $this->managerRestaurant['email'])->first()->id,
+                    'name' => $this->managerRestaurant['name'],
                 ]);
 
                 DB::commit();

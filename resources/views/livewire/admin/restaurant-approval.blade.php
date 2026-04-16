@@ -14,17 +14,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($restaurantApproval as $approvalRestaurant)
+                    @if ($restaurantApproval->isNotEmpty())
+                        @foreach ($restaurantApproval as $approvalRestaurant)
+                            <tr>
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$approvalRestaurant->name}}</td>                            
+                                <td>
+                                    <button class="btn btn-success btn-circle" wire:click="modalApprovalRestaurant({{$approvalRestaurant->id}})" data-bs-toggle="modal" data-bs-target="#modalApprovalRestaurant">
+                                        <span class="bi bi-pencil-fill">Approval</span>
+                                    </button>                                
+                                </td>                            
+                            </tr>
+                        @endforeach
+                    @else
                         <tr>
-                            <td>{{$loop->iteration}}</td>
-                            <td>{{$approvalRestaurant->name}}</td>                            
-                            <td>
-                                <button class="btn btn-success btn-circle" wire:click="modalApprovalRestaurant({{$approvalRestaurant->id}})" data-bs-toggle="modal" data-bs-target="#modalApprovalRestaurant">
-                                    <span class="bi bi-pencil-fill">Approval</span>
-                                </button>                                
-                            </td>                            
+                            <td colspan="3" class="text-center">{{ __("No restaurant approval.") }}</td>
                         </tr>
-                    @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>

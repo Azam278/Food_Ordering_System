@@ -6,8 +6,7 @@
             <div class="card text-white bg-success mb-3">
                 <div class="card-header">Approved Restaurants</div>
                 <div class="card-body">
-                    <h5 class="card-title">4</h5>
-                    {{-- <h5 class="card-title">{{ $approvedRestaurants }}</h5> --}}
+                    <h5 class="card-title">{{ $totalApproved }}</h5>
                     <p class="card-text">Total restaurants approved by admin.</p>
                 </div>
             </div>
@@ -17,8 +16,7 @@
             <div class="card text-white bg-warning mb-3">
                 <div class="card-header">Pending Approvals</div>
                 <div class="card-body">
-                    <h5 class="card-title">2</h5>
-                    {{-- <h5 class="card-title">{{ $pendingRestaurants }}</h5> --}}
+                    <h5 class="card-title">{{ $totalPendingApproval }}</h5>
                     <p class="card-text">Restaurants waiting for admin approval.</p>
                 </div>
             </div>
