@@ -24,9 +24,11 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <label for="category" class="form-label">Category</label>
                                 <select id="category" wire:model="category" class="form-select">
                                     <option value="">Select Category</option>
-                                    @foreach($foodCategory as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                    @endforeach
+                                    @if ($foodCategory)
+                                        @foreach($foodCategory as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    @endif
                                 </select>
                                 @error('category') <small class="text-danger">{{ $message }}</small> @enderror
                             </div>

@@ -2,14 +2,15 @@
 
 namespace App\Http\Livewire\Restaurant;
 
-use Livewire\Component;
-use Livewire\WithFileUploads;
+use App\Models\Category;
+use App\Models\CategoryRestaurant;
+use App\Models\FoodItem;
+use App\Models\Restaurant;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
-use App\Models\Restaurant;
-use App\Models\Category;
-use App\Models\FoodItem;
-use App\Models\CategoryRestaurant;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class RestaurantMenu extends Component
 {
@@ -26,6 +27,11 @@ class RestaurantMenu extends Component
         'foodImage' => null,
         'is_available' => false,
     ];
+
+    public $categoryFood = [
+        'name' => '',
+    ];
+
     public $category;
     public $foodCategory;
     public $selectedRestaurant;
@@ -48,6 +54,12 @@ class RestaurantMenu extends Component
         $this->selectedRestaurant = $this->restaurant;
         $this->foodCategory = Category::all(['id', 'name']);
         $this->emit('showModal', 'modalAddFoodItem');
+    }
+
+    public function modalAddFoodCategory()
+    {
+        $this->selectedRestaurant = $this->restaurant;
+        $this->emit('showModal', 'modalAddFoodCategory');
     }
 
     public function addMenuItem()
@@ -103,6 +115,36 @@ class RestaurantMenu extends Component
 
         } catch (\Exception $e) {
             DB::rollBack();
+            $this->emit('swal:alert', [
+                'position' => 'top',
+                'icon' => 'error',
+                'title' => 'Error: ' . $e->getMessage(),
+                'timerProgressBar' => true,
+            ]);
+        }
+    }
+
+    public function addCategoryItem(){
+        $this->validate([
+            'categoryFood.name' => 'required|string|max:255',
+        ]);
+
+        try{
+            DB::beginTransaction();
+
+            Category::firstOrCreate(['name' => $this->categoryFood['name']]);
+
+            DB::commit();
+
+            $this->emit('swal:alert', [
+                'position' => 'top',
+                'icon' => 'success',
+                'title' => 'Successfully added: ' . $this->foodMenu['name'],
+                'timerProgressBar' => true,
+            ]);
+        } catch(QueryException $e){
+            DB::rollBack();
+
             $this->emit('swal:alert', [
                 'position' => 'top',
                 'icon' => 'error',

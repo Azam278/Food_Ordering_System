@@ -1,5 +1,6 @@
 <div class="container">
     @include('livewire.restaurant.modal.modal-add-food')
+    @include('livewire.restaurant.modal.modal-add-food-category')
 
     <h2 class="mb-4">{{ $restaurant->name }} Menu</h2>
 
@@ -11,6 +12,7 @@
         <div class="card-body">
             <div class="mb-3">
                 <button class="btn btn-primary" wire:click.prevent="modalAddFoodItem">Add Food Item</button>
+                <button class="btn btn-primary" wire:click.prevent="modalAddFoodCategory">Add Food Category</button>
             </div>
 
             @if($foodItems->isEmpty())

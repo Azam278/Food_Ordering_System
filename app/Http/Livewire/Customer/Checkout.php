@@ -34,8 +34,7 @@ class Checkout extends Component
     
     public function processPayment()
     {
-        $paymentController = new PaymentController();
-        // dd('tessting'); 
+        $paymentController = app(PaymentController::class);
         
         $response = $paymentController->pay([
             'amount' => $this->order->total,
