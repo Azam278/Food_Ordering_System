@@ -52,25 +52,25 @@
                         <i class="fas fa-store"></i> Restaurant Profile
                     </a>
                 </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-utensils"></i> Menu Management
-                    </a>
-                    <ul class="dropdown-menu">
-                        @foreach($managerRestaurants as $restaurant)
+                @if ($managerRestaurants->isNotEmpty())
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-utensils"></i> Menu Management
+                        </a>
+                        <ul class="dropdown-menu">
                             <li>
-                                <a class="dropdown-item" href="{{ route('manager.restaurant-menu', ['restaurantId' => Crypt::encryptString($restaurant->id)]) }}">
-                                    {{ $restaurant->name }}
+                                <a class="dropdown-item" href="{{ route('manager.restaurant-menu', ['restaurantId' => Crypt::encryptString($managerRestaurants->first()->id)]) }}">
+                                    Menu
                                 </a>
                             </li>
-                        @endforeach
-                    </ul>
-                </li>
-                <li>
-                    <a href="{{ route('manager.restaurant-total-sales') }}">
-                        <i class="fas fa-clipboard-list"></i> Total Sales
-                    </a>
-                </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{{ route('manager.restaurant-total-sales') }}">
+                            <i class="fas fa-clipboard-list"></i> Total Sales
+                        </a>
+                    </li>
+                @endif
             </ul>
         </div>
 

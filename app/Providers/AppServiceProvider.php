@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
         // Share $managerRestaurants with the 'layouts.restaurant' view
         View::composer('layouts.restaurant', function ($view) {
             if (auth()->check() && auth()->user()->hasRole('restaurant_manager')) {
-                $managerRestaurants = Restaurant::where('user_id', auth()->id())->get();
+                $managerRestaurants = Restaurant::where('user_id', auth()->id())->where('is_approved', true)->get();
                 $view->with('managerRestaurants', $managerRestaurants);
             }
         });

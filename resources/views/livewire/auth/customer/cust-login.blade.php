@@ -29,7 +29,6 @@
                 <div class="col-12">
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <label for="yourPassword" class="form-label fw-semibold mb-0">Password</label>
-                    <a href="#" class="text-decoration-none small">Forgot Password?</a>
                   </div>
                   <div class="input-group has-validation">
                     <span class="input-group-text bg-light"><i class="bi bi-lock"></i></span>
